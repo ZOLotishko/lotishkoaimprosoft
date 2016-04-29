@@ -28,12 +28,7 @@ public class DepartmentsControllerShowAddList implements InternalController {
 
         if (id != null) {
             Department department;
-//            try {
             department = departmentService.read(Utils.parseStringToInteger(id));
-//            } catch (SQLException e) {
-//                response.sendRedirect("/aimprosoft/error");
-//            }
-
             if (department != null) {
                 request.setAttribute("department", department);
             }

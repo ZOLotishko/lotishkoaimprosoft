@@ -9,7 +9,7 @@
 <div class="container">
     <div>
         <h1> Error</h1>
-        <h1 style="text-align: center"><c:out value="${error}"/></h1>
+        <h6 style="text-align: center"><c:out value="${errorMessage}"/></h6>
         <a href="/aimprosoft/">Return home page!</a>
     </div>
 </div>
