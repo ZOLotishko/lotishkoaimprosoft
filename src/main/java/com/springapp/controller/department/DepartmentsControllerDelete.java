@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Created on 05.04.16.
  */
-@Component("/aimprosoft/deleteDepartment")
+@Component("/deleteDepartment")
 public class DepartmentsControllerDelete implements InternalController {
 
     @Autowired
@@ -22,13 +22,27 @@ public class DepartmentsControllerDelete implements InternalController {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Integer action = Utils.parseStringToInteger(request.getParameter("department_id"));
+        String id = request.getParameter("id");
+//        try {
+//            List<FileItem> list = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
+//            for (FileItem item : list) {
+//                String id = new String(item.get(), "UTF-8");
+
+        if (id != null) {
+            departmentService.delete(Utils.parseStringToInteger(id));
+//                }
+        }
+//        } catch (FileUploadException e) {
+//            e.printStackTrace();
+
+
+//        Integer action = Utils.parseStringToInteger(request.getParameter("id"));
 
 //        try {
-        departmentService.delete(action);
+//        departmentService.delete(action);
 //        } catch (Exception e) {
 //            response.sendRedirect("/aimprosoft/error");
 //        }
-        response.sendRedirect("/aimprosoft/");
+        response.sendRedirect("/");
     }
 }

@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * Created on 07.04.16.
  */
-@Component("/aimprosoft/addDepartment")
+@Component("/addDepartment")
 public class DepartmentsControllerShowAddList implements InternalController {
 
     @Autowired
