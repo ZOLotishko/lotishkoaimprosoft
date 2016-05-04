@@ -23,26 +23,11 @@ public class DepartmentsControllerDelete implements InternalController {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
-//        try {
-//            List<FileItem> list = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
-//            for (FileItem item : list) {
-//                String id = new String(item.get(), "UTF-8");
 
         if (id != null) {
             departmentService.delete(Utils.parseStringToInteger(id));
-//                }
         }
-//        } catch (FileUploadException e) {
-//            e.printStackTrace();
 
-
-//        Integer action = Utils.parseStringToInteger(request.getParameter("id"));
-
-//        try {
-//        departmentService.delete(action);
-//        } catch (Exception e) {
-//            response.sendRedirect("/aimprosoft/error");
-//        }
         response.sendRedirect("/");
     }
 }

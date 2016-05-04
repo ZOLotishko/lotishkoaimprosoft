@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created on 06.04.16.
  */
-@Component("/aimprosoft/listEmployees")
+@Component("/listEmployees")
 public class EmployeeControllerShowList implements InternalController {
 
     @Autowired
