@@ -23,15 +23,15 @@ public class EmployeeControllerDelete implements InternalController {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        Integer id = Utils.parseStringToInteger(request.getParameter("id"));
-        Integer depId = Utils.parseStringToInteger(request.getParameter("department_id"));
-//        try {
-        employeeService.delete(id);
-//        } catch (SQLException e) {
-//            response.sendRedirect("/error");
-//        }
-        String url = "/aimprosoft/listEmployees?department_id=" + depId;
-        response.sendRedirect(url);
+//        Integer id = Utils.parseStringToInteger(request.getParameter("id"));
+//        Integer depId = Utils.parseStringToInteger(request.getParameter("department_id"));
+////        try {
+//        employeeService.delete(id);
+////        } catch (SQLException e) {
+////            response.sendRedirect("/error");
+////        }
+//        String url = "/aimprosoft/listEmployees?department_id=" + depId;
+//        response.sendRedirect(url);
 
     }
 }

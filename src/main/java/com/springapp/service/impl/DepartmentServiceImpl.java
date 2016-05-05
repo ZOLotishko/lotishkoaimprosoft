@@ -58,10 +58,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public void createOrUpdate(Department department) throws ValidationException {
 
-        Map<String, String> errors = myValidation.validation(department);
-        if (errors.size() > 0) {
-            throw new ValidationException(errors);
-        }
+//        Map<String, String> errors = myValidation.validation(department);
+//        if (errors.size() > 0) {
+//            throw new ValidationException(errors);
+//        }
         departmentDAO.createOrUpdateDepartment(department);
     }
 }

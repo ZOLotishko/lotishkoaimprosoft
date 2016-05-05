@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Created on 07.04.16.
  */
-@Component("/aimprosoft/addEmployee")
+@Component("/addEmployee")
 public class EmployeeControllerShowAddList implements InternalController {
 
     @Autowired
@@ -23,19 +23,19 @@ public class EmployeeControllerShowAddList implements InternalController {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String id = request.getParameter("id");
-        if (id != null) {
-            Employee employee;
-           /* try {*/
-            employee = employeeService.read(Integer.parseInt(id));
-            /*} catch (SQLException e) {
-                response.sendRedirect("/aimprosoft/error");
-            }*/
-            if (employee != null) {
-                request.setAttribute("emp", employee);
-                request.setAttribute("department_id", request.getParameter("department_id"));
-            }
-        }
-        request.getRequestDispatcher("/jsp/addEmployee.jsp").forward(request, response);
+//        String id = request.getParameter("id");
+//        if (id != null) {
+//            Employee employee;
+//           /* try {*/
+//            employee = employeeService.read(Integer.parseInt(id));
+//            /*} catch (SQLException e) {
+//                response.sendRedirect("/aimprosoft/error");
+//            }*/
+//            if (employee != null) {
+//                request.setAttribute("emp", employee);
+//                request.setAttribute("department_id", request.getParameter("department_id"));
+//            }
+//        }
+//        request.getRequestDispatcher("/jsp/addEmployee.jsp").forward(request, response);
     }
 }

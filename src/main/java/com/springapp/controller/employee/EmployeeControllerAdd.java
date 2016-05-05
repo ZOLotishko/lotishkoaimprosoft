@@ -25,28 +25,28 @@ public class EmployeeControllerAdd implements InternalController {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        Employee employee = new Employee();
-
-        employee.setId(Utils.parseStringToInteger(request.getParameter("id")));
-        employee.setName(request.getParameter("name"));
-        employee.setEmail(request.getParameter("email"));
-        employee.setDate(Utils.parseStringToDate(request.getParameter("date")));
-        employee.setSalary(Utils.parseStringToDouble(request.getParameter("salary")));
-        employee.setDepartment_id(Utils.parseStringToInteger(request.getParameter("department_id")));
-
-        try {
-//            try {
-            employeeService.createOrUpdateEmployee(employee);
-//            } catch (SQLException e) {
-//                response.sendRedirect("/error");
-//            }
-            response.sendRedirect("/aimprosoft/listEmployees?department_id=" + employee.getDepartment_id());
-        } catch (ValidationException e) {
-            request.setAttribute("emp", employee);
-            request.setAttribute("department_id", request.getParameter("department_id"));
-            request.setAttribute("error", e.getError());
-            request.getRequestDispatcher("/jsp/addEmployee.jsp").forward(request, response);
-
-        }
+//        Employee employee = new Employee();
+//
+//        employee.setId(Utils.parseStringToInteger(request.getParameter("id")));
+//        employee.setName(request.getParameter("name"));
+//        employee.setEmail(request.getParameter("email"));
+//        employee.setDate(Utils.parseStringToDate(request.getParameter("date")));
+//        employee.setSalary(Utils.parseStringToDouble(request.getParameter("salary")));
+//        employee.setDepartment_id(Utils.parseStringToInteger(request.getParameter("department_id")));
+//
+//        try {
+////            try {
+//            employeeService.createOrUpdateEmployee(employee);
+////            } catch (SQLException e) {
+////                response.sendRedirect("/error");
+////            }
+//            response.sendRedirect("/aimprosoft/listEmployees?department_id=" + employee.getDepartment_id());
+//        } catch (ValidationException e) {
+//            request.setAttribute("emp", employee);
+//            request.setAttribute("department_id", request.getParameter("department_id"));
+//            request.setAttribute("error", e.getError());
+//            request.getRequestDispatcher("/jsp/addEmployee.jsp").forward(request, response);
+//
+//        }
     }
 }

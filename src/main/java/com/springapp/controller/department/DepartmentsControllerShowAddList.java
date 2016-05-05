@@ -24,15 +24,15 @@ public class DepartmentsControllerShowAddList implements InternalController {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String id = request.getParameter("department_id");
-
-        if (id != null) {
-            Department department;
-            department = departmentService.read(Utils.parseStringToInteger(id));
-            if (department != null) {
-                request.setAttribute("department", department);
-            }
-        }
-        request.getRequestDispatcher("/jsp/addDepartments.jsp").forward(request, response);
+//        String id = request.getParameter("department_id");
+//
+//        if (id != null) {
+//            Department department;
+//            department = departmentService.read(Utils.parseStringToInteger(id));
+//            if (department != null) {
+//                request.setAttribute("department", department);
+//            }
+//        }
+//        request.getRequestDispatcher("/jsp/addDepartments.jsp").forward(request, response);
     }
 }
