@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Created by on 11.04.2016.
  */
-@Component("/aimprosoft/deleteEmployee")
+@Component("/deleteEmployee")
 public class EmployeeControllerDelete implements InternalController {
 
     @Autowired
@@ -23,15 +23,13 @@ public class EmployeeControllerDelete implements InternalController {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-//        Integer id = Utils.parseStringToInteger(request.getParameter("id"));
-//        Integer depId = Utils.parseStringToInteger(request.getParameter("department_id"));
-////        try {
-//        employeeService.delete(id);
-////        } catch (SQLException e) {
-////            response.sendRedirect("/error");
-////        }
-//        String url = "/aimprosoft/listEmployees?department_id=" + depId;
-//        response.sendRedirect(url);
+        String id = request.getParameter("id");
 
+        if (id != null) {
+            employeeService.delete(Utils.parseStringToInteger(id));
+        }
+
+//        response.sendRedirect("/");
     }
+//
 }

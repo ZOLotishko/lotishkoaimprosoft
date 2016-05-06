@@ -12,14 +12,13 @@ import net.sf.oval.constraint.NotNull;
  */
 public class Department {
 
-    @Expose
+
     private Integer id;
     @NotNull(message = "Name can`t be empty")
     @NotEmpty(message = "Name can`t be empty")
     @Length(min = 2, max = 20, message = "Error Length")
     @CheckWith(value = CheckWithDepartment.class, message = "This name already exists")
 
-    @Expose
     private String name;
 
     public Department(Integer id, String name) {

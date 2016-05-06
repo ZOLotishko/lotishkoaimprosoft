@@ -45,10 +45,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void createOrUpdateEmployee(Employee employee) throws ValidationException {
-        Map<String, String> errors = myValidation.validation(employee);
-        if (errors.size() > 0) {
-            throw new ValidationException(errors);
-        }
+//        Map<String, String> errors = myValidation.validation(employee);
+//        if (errors.size() > 0) {
+//            throw new ValidationException(errors);
+//        }
         employeeDAO.createOrUpdateEmployee(employee);
     }
 }

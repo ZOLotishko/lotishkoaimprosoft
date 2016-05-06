@@ -23,32 +23,20 @@ function drawTableDepartment(dep) {
         $('<tr/>').append($('<td>').text(department.id))
             .append($('<td>').text(department.name))
             .append($('<td>')
-                .append($('<a href="/saveDepartment" onclick="addNewDepartments(' + department.id + ').submit();  return false;">Update</a>')))
+                .append($('<button class="btn-flat disabled" onclick="addNewDepartments(' + department.id + ')"/>').text("Edit")))
             .append($('<td>')
-                .append($('<a href="/deleteDepartment" onclick="DeleteDepartment(' + department.id + ').submit();  return false;">Delete</a>')))
+                .append($('<button class="btn-flat disabled" onclick="DeleteDepartment(' + department.id + ')"/>').text("Delete")))
             .append($('<td>')
-                .append($('<button class="btn waves-effect waves-red" onclick="showListEmployee(' + department.id + ')"/>').text("List")).appendTo(table))
-                //.append($('<a href="/listEmployees" onclick="showListEmployee(' + department.id + ').submit();  return false;">List</a>')))
-            .appendTo(table);
+                .append($('<button class="btn-flat disabled" onclick="showListEmployee(' + department.id + ')"/>').text("List"))).appendTo(table);
+        //.append($('<a href="/listEmployees" onclick="showListEmployee('+department.id+').submit();  return false;">List</a>')))
+        //.appendTo(table);    <a class="btn-flat disabled">Button</a>
     }
 
-    $('<button class="btn waves-effect waves-red" onclick="addNewDepartments()"/>').text("AddDepartment").appendTo(table);
+    $('<button class="btn waves-effect waves-red" onclick="addNewDepartments()"/>').text("AddDepartment").appendTo(div);
 
 }
 
-function EditProduct(department) {
-    $.ajax({
-        url: '/saveDep',
-        type: 'POST',
-        dataType: 'json',
-        data: {id: id},
-        success: function () {
-            addNewDepartments(department);
-        }
-    })
-}
-
-function DeleteDepartment(id) {
+function DeleteDepartment() {
     $.ajax({
         url: '/deleteDepartment',
         type: 'POST',
@@ -100,12 +88,20 @@ function saveDep(department) {
     });
 }
 function showListEmployee(id) {
-    $.getJSON('/listEmployees', function (emp) {
-        drawTableEmployee(emp)
+
+    $.ajax({
+        url: '/listEmployees',
+        type: 'GET',
+        dataType: 'json',
+        data: {id: id},
+        success: function (data) {
+            drawTableEmployee(data);
+        }
     });
 }
 
 function drawTableEmployee(emp) {
+
     $('#test').children().detach();
     var div = $('<div class="container"/>').appendTo($('#test'));
 
@@ -122,30 +118,87 @@ function drawTableEmployee(emp) {
                 .append($('<th/>').html('Edit:'))
                 .append($('<th/>').html('Delete:')))
         );
-
     for (var i = 0; i < emp.length; i++) {
-        var employee = emp[i];
-        $('<tr/>')
-            .append($('<td>').text(employee.id))
-            .append($('<td>').text(employee.name))
-            .append($('<td>').text(employee.email))
-            .append($('<td>').text(employee.date))
-            .append($('<td>').text(employee.salary))
-            .append($('<td>').text(employee.department_id))
-            .append($('<td>').appendTo(table));
+        var department = emp[i];
+        $('<tr/>').append($('<td>').text(department.id))
+            .append($('<td>').text(department.name))
+            .append($('<td>').text(department.email))
+            .append($('<td>').text(department.date))
+            .append($('<td>').text(department.salary))
+            .append($('<td>').text(department.department_id))
+            .append($('<td>')
+                .append($('<button class="btn-flat disabled" onclick="addNewEmployee('+department.id+')"/>').text("Edit")))
+            .append($('<td>')
+                .append($('<button class="btn-flat disabled" onclick="DeleteEmployee(' + department.id + ')"/>').text("Delete")))
 
-            //<a onclick='doalert(this);' href='#post-employee' title='http://localhost:7001/com.backbone.employee/api/emp/empUpdate/"+employee.EMPNO+"' class='btn btn-primary editBtn'>Edit</button>"+
-
-
-            //    .append($('<a href="/saveDepartment" onclick="addNewDepartments(' + department + ').submit();  return false;">Update</a>')))
-            //.append($('<td>')
-            //    .append($('<a href="/deleteDepartment" onclick="DeleteDepartment(' + department.id + ').submit();  return false;">Delete</a>')))
-            //.append($('<td>');
+            .appendTo(table);
     }
 
-    var div = $('<div/>').appendTo(div)
-        .append($('<a href="#!" class="btn waves-effect waves-red" onclick="addEmployee">add</a>'));
+    $('<button class="btn waves-effect waves-red" onclick="addNewEmployee(' + department.department_id + ')"/>').text("AddEmployee").appendTo(div);
 
-    $('<button class="btn waves-effect waves-red" onclick="addNewDepartments()"/>').text("AddEmployee").appendTo(table);
+}
 
+function DeleteEmployee(id) {
+    $.ajax({
+        url: '/deleteEmployee',
+        type: 'POST',
+        dataType: 'json',
+        data: {id: id},
+        success: function () {
+            showListEmployee();
+        }
+    })
+}
+
+function addNewEmployee(employee) {
+
+
+    $('#test').children().detach();
+
+    var div = $('<div class="container"/>').appendTo($('#test'));
+
+    var form = $('<form id = "employee" method="POST" name ="saveEmployee"/>').appendTo(div);
+
+    $('<h1 class="card-panel teal lighten-2" align="center"/>').text("New Employee").appendTo(form);
+    $('<div class="row"/>')
+        .append($('<div class="col s4 offset-s4"/>')
+            .append($('<input type="hidden" id="id"/>').val(employee.id)).append($('<br/>'))
+            .append($('<h5/>').text("Name Employee").append($('<br/>'))
+                .append($('<input type="text" id="name"/>').val(employee.name)))
+            .append($('<h5/>').text("email").append($('<br/>'))
+                .append($('<input type="text" id="email"/>').val(employee.email)))
+            .append($('<h5/>').text("date").append($('<br/>'))
+                .append($('<input type="date" id="date"/>').val(employee.date)))
+            .append($('<h5/>').text("salary").append($('<br/>'))
+                .append($('<input type="text" id="salary"/>').val(employee.salary)))
+            .append($('<input type="hidden" id="department_id"/>').val(employee.department_id)).append($('<br/>'))
+
+            .append($('<button class="waves-effect waves-light btn" onclick="saveEmp()"/>').text("Add Employee")))
+        .appendTo(form);
+}
+
+function saveEmp() {
+    var id = $('#id').val();
+    var name = $('#name').val();
+    var email = $('#email').val();
+    var date = $('#date').val();
+    var salary = $('#salary').val();
+    var department_id = $('#department_id').val();
+    var dep = {id: department_id};
+    $.ajax({
+        url: '/saveEmployee',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            id: id,
+            name: name,
+            email: email,
+            date: date,
+            salary: salary,
+            department_id: department_id
+        },
+        success: function () {
+            showListEmployee(dep);
+        }
+    });
 }
