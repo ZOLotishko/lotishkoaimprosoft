@@ -27,7 +27,6 @@ public class DepartmentsControllerDelete implements InternalController {
         if (id != null) {
             departmentService.delete(Utils.parseStringToInteger(id));
         }
-
-        response.sendRedirect("/");
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 }

@@ -24,7 +24,7 @@ public class EmployeeControllerAdd implements InternalController {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-Integer idd ;
+        Integer idd;
         Employee employee = new Employee();
         String id = request.getParameter("id");
         String name = request.getParameter("name");
@@ -34,20 +34,20 @@ Integer idd ;
         String department_id = request.getParameter("department_id");
         if (id == "") {
             idd = null;
-        }else {
+        } else {
             idd = Integer.parseInt(id);
         }
-            employee.setId(idd);
-            employee.setName(name);
-            employee.setEmail(email);
-            employee.setDate(Utils.parseStringToDate(date));
-            employee.setSalary(Utils.parseStringToDouble(salary));
-            employee.setDepartment_id(Integer.parseInt(department_id));
-            try {
-                employeeService.createOrUpdateEmployee(employee);
-            } catch (ValidationException e) {
-                e.printStackTrace();
-            }
+        employee.setId(idd);
+        employee.setName(name);
+        employee.setEmail(email);
+        employee.setDate(Utils.parseStringToDate(date));
+        employee.setSalary(Utils.parseStringToDouble(salary));
+        employee.setDepartment_id(Integer.parseInt(department_id));
+        try {
+            employeeService.createOrUpdateEmployee(employee);
+        } catch (ValidationException e) {
+            e.printStackTrace();
+        }
 
     }
 }
