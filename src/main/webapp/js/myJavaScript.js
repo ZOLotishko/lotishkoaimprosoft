@@ -16,14 +16,14 @@ function drawTableDepartment(dep) {
                 .append($('<th/>').html('Edit:'))
                 .append($('<th/>').html('Delete:'))
                 .append($('<th/>').html('List Employee')))
-    );
+        );
 
     for (var i = 0; i < dep.length; i++) {
         var department = dep[i];
         $('<tr/>').append($('<td>').text(department.id))
             .append($('<td>').text(department.name))
             .append($('<td>')
-                .append($('<button class="btn-flat disabled" onclick="addNewDepartments(' + dep['+ department.id+'] + ')"/>').text("Edit")))
+                .append($('<button class="btn-flat disabled" onclick="addNewDepartments(' + department.id + ')"/>').text("Edit")))
             .append($('<td>')
                 .append($('<button class="btn-flat disabled" onclick="DeleteDepartment(' + department.id + ')"/>').text("Delete")))
             .append($('<td>')
@@ -59,17 +59,18 @@ function addNewDepartments(dep) {
 
     var div = $('<div class="container"/>').appendTo($('#test'));
 
-    var form = $('<form id = "dep" method="POST" name ="saveDepartment"/>').appendTo(div);
+    var form = $('<form id = "depForm" method="POST" name ="saveDepartment"/>').appendTo(div);
 
     $('<h1 class="card-panel teal lighten-2" align="center"/>').text("New Department").appendTo(form);
     $('<div class="row"/>')
         .append($('<div class="col s4 offset-s4"/>')
-            .append($('<input type="hidden" id="id"/>').val(dep != null ? dep.id : "")).append($('<br/>'))
+            .append($('<input type="hidden" id="id"/>').val(dep != null ? dep : "")).append($('<br/>'))
             .append($('<h5/>').text("Name Department").append($('<br/>'))
-                .append($('<input type="text" id="name"/>').val(dep != null ? dep.name : ""))
-                .append($('<span id="valid"></span>')))
-            .append($('<button class="waves-effect waves-light btn" onclick="saveDep()"/>').text("Add dep")))
+                .append($('<input type="text" id="name" class="validate"/>')))
+            //.append($('<span id="valid"></span>')))
+            .append($('<input type="submit"  class="btn waves-effect waves-red"/>')))
         .appendTo(form);
+    //validateDepartment();
 }
 
 function saveDep(dep) {
@@ -95,16 +96,20 @@ function showListEmployee(id) {
         dataType: 'json',
         data: {id: id},
         success: function (data) {
-            drawTableEmployee(data);
+            drawTableEmployee(data, id);
         }
     });
 }
 
 function drawTableEmployee(data, id) {
     $('#test').children().detach();
+
     var div = $('<div class="container"/>').appendTo($('#test'));
 
     var h1 = $('<h1 class="card-panel teal lighten-2" align="center">List Employee</h1>').appendTo(div);
+    var h3 = $('<h3  align="center">Department:  </h3>').text(id).appendTo(div);
+
+
     var table = $('<table class="striped"/>').appendTo(div)
         .append($('<thead/>')
             .append($('<tr/>')
@@ -116,9 +121,10 @@ function drawTableEmployee(data, id) {
                 .append($('<th/>').html('Department_id'))
                 .append($('<th/>').html('Edit:'))
                 .append($('<th/>').html('Delete:')))
-    );
+        );
     for (var i = 0; i < data.length; i++) {
         var employee = data[i];
+
         $('<tr/>').append($('<td>').text(employee.id))
             .append($('<td>').text(employee.name))
             .append($('<td>').text(employee.email))
@@ -126,14 +132,14 @@ function drawTableEmployee(data, id) {
             .append($('<td>').text(employee.salary))
             .append($('<td>').text(employee.department_id))
             .append($('<td>')
-                .append($('<button class="btn-flat disabled" onclick="addNewEmployee(' + employee.id + ')"/>').text("Edit")))
+                .append($('<button class="btn-flat disabled" onclick="addNewEmployee(' + employee.id + ', ' + employee.department_id + ')"/>').text("Edit")))
             .append($('<td>')
                 .append($('<button class="btn-flat disabled" onclick="DeleteEmployee(' + employee.id + ')"/>').text("Delete")))
 
             .appendTo(table);
     }
-
-    $('<button class="btn waves-effect waves-red" onclick="addNewEmployee(' + employee.department_id + ')"/>').text("AddEmployee").appendTo(div);
+    var idEmp = null;
+    $('<button class="btn waves-effect waves-red" onclick="addNewEmployee(' + idEmp + ' ,' + id + ')"/>').text("AddEmployee").appendTo(div);
 
 }
 
@@ -149,11 +155,10 @@ function DeleteEmployee(id) {
     })
 }
 
-function addNewEmployee(data) {
+function addNewEmployee(id, depID) {
 
 
     $('#test').children().detach();
-    //var emp = data;
     var div = $('<div class="container"/>').appendTo($('#test'));
 
     var form = $('<form id = "employee" method="POST" name ="saveEmployee"/>').appendTo(div);
@@ -161,25 +166,27 @@ function addNewEmployee(data) {
     $('<h1 class="card-panel teal lighten-2" align="center"/>').text("New Employee").appendTo(form);
     $('<div class="row"/>')
         .append($('<div class="col s4 offset-s4"/>')
-            .append($('<input type="hidden" id="id" name="id"/>').val(data != null ? data.id : "")).append($('<br/>'))
+            .append($('<input type="hidden" id="id" name="id"/>').val(id)).append($('<br/>'))
             .append($('<h5/>').text("Name Employee").append($('<br/>'))
-                .append($('<input type="text" id="name"/>').val(data != null ? data.name : "")))
+                .append($('<input type="text" id="name"/>')))
             .append($('<h5/>').text("email").append($('<br/>'))
-                .append($('<input type="text" id="email"/>').val(data != null ? data.email : "")))
-            .append($('<h5/>').text("date").append($('<br/>'))
-                .append($('<input type="date" id="date"/>').val(data != null ? data.date : "")))
+                .append($('<input type="email" id="email" class="validate">/>'))
+                .append($('<label for="email">Email</label>')))
+            .append($('<h5 />').text("date").append($('<br/>'))
+                .append($('<input type="date" id="date"/>')))
             .append($('<h5/>').text("salary").append($('<br/>'))
-                .append($('<input type="text" id="salary"/>').val(data != null ? data.salary : "")))
-            .append($('<input type="hidden" id="department_id" name="department_id"/>').val(data != null ? data.department_id : "")).append($('<br/>'))
+                .append($('<input type="text" id="salary"/>')))
+            .append($('<input type="hidden" id="department_id" name="department_id"/>').val(depID)).append($('<br/>'))
 
             .append($('<button class="waves-effect waves-light btn" onclick="saveEmp()"/>').text("Add Employee")))
         .appendTo(form);
+
+
 }
 
 function saveEmp(data) {
     var data = {};
     data["department_id"] = $('#department_id').val();
-    //var department_id = $('#department_id').val();
     var id = $('#id').val();
     var name = $('#name').val();
     var email = $('#email').val();
@@ -205,28 +212,44 @@ function saveEmp(data) {
 }
 
 function validateDepartment() {
-    //$('#dep').validate({
 
-        $(document).ready(function() {
-            $('#name').blur(function() {
-                if($(this).val() != '') {
+    $('#depForm').validate({
+        rules: {
+            name: {
+                required: true,
+                minlength: 2,
+                maxlength: 20
+            }
+        },
+        messages: {
+            name: {
+                name: "Please enter your name",
+                required: "*"
+            }
+        },
+        submitHandler: function () {
+            saveDep()
+        }
+    });
 
-                    // Поле email заполнено (здесь будем писать код валидации)
-                    if(pattern.test($(this).val())){
-                        $(this).css({'border' : '1px solid #569b44'});
-                        $('#valid').text('Верно');
-                    } else {
-                        $(this).css({'border' : '1px solid #ff0000'});
-                        $('#valid').text('Не верно');
-                    }
-                } else {
-                    // Поле email пустое, выводим предупреждающее сообщение
-                    $(this).css({'border' : '1px solid #ff0000'});
-                    $('#valid').text('Поле email не должно быть пустым');
-                }
-            });
-        });
 
+    //$(document).ready(function () {
+    //    $('#name').blur(function () {
+    //        if ($(this).val() != '') {
+    //
+    //            if (pattern.test($(this).val())) {
+    //                $(this).css({'border': '1px solid #569b44'});
+    //                $('#valid').text('Верно');
+    //            } else {
+    //                $(this).css({'border': '1px solid #ff0000'});
+    //                $('#valid').text('Не верно');
+    //            }
+    //        } else {
+    //            // Поле email пустое, выводим предупреждающее сообщение
+    //            $(this).css({'border': '1px solid #ff0000'});
+    //            $('#valid').text('Поле email не должно быть пустым');
+    //        }
+    //    });
     //});
 }
 
@@ -260,7 +283,7 @@ function emplFormValidate() {
             }
         },
         submitHandler: function () {
-            sendEmpForController()
+            saveDep()
         }
     });
 }

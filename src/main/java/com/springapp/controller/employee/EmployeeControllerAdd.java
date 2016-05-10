@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Date;
 
 /**
  * Created on 06.04.16.
@@ -24,7 +25,7 @@ public class EmployeeControllerAdd implements InternalController {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Integer idd;
+
         Employee employee = new Employee();
         String id = request.getParameter("id");
         String name = request.getParameter("name");
@@ -32,17 +33,18 @@ public class EmployeeControllerAdd implements InternalController {
         String date = request.getParameter("date");
         String salary = request.getParameter("salary");
         String department_id = request.getParameter("department_id");
-        if (id == "") {
-            idd = null;
-        } else {
-            idd = Integer.parseInt(id);
+        if (id != "") {
+            employee.setId(Integer.parseInt(id));
         }
-        employee.setId(idd);
+
         employee.setName(name);
         employee.setEmail(email);
-        employee.setDate(Utils.parseStringToDate(date));
+        employee.setDate(Date.valueOf(date));
         employee.setSalary(Utils.parseStringToDouble(salary));
         employee.setDepartment_id(Integer.parseInt(department_id));
+
+        System.out.println(employee);
+
         try {
             employeeService.createOrUpdateEmployee(employee);
         } catch (ValidationException e) {

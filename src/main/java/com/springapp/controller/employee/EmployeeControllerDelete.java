@@ -28,8 +28,5 @@ public class EmployeeControllerDelete implements InternalController {
         if (id != null) {
             employeeService.delete(Utils.parseStringToInteger(id));
         }
-
-//        response.sendRedirect("/");
     }
-//
 }
