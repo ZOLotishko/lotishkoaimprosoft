@@ -31,7 +31,7 @@ public class DepartmentsControllerAdd implements InternalController {
 
         department.setId(Utils.parseStringToInteger(id));
         department.setName(name);
-
+        response.setStatus(HttpServletResponse.SC_OK);
         try {
             departmentService.createOrUpdate(department);
         } catch (ValidationException e) {

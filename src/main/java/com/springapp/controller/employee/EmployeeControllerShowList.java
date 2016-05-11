@@ -1,6 +1,7 @@
 package com.springapp.controller.employee;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.springapp.controller.InternalController;
 import com.springapp.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,9 @@ public class EmployeeControllerShowList implements InternalController {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String id = request.getParameter("id");
-        String json = new Gson().toJson(employeeService.getAllEmployeesInDepartment(Integer.parseInt(id)));
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+
+        String json = gson.toJson(employeeService.getAllEmployeesInDepartment(Integer.parseInt(id)));
         response.setStatus(HttpServletResponse.SC_OK);
 
         response.setContentType("application/json");
