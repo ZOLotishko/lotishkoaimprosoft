@@ -23,13 +23,15 @@ function drawTableDepartment(dep) {
         $('<tr/>').append($('<td>').text(department.id))
             .append($('<td>').text(department.name))
             .append($('<td>')
-                .append($('<button class="btn-flat disabled" onclick="addNewDepartments(' + department.id + ')"/>').text("Edit")))
+                .append($('<button class="btn-flat disabled" onclick="showAddDepartment(' + department.id + ')"/>').text("Edit")))
             .append($('<td>')
                 .append($('<button class="btn-flat disabled" onclick="DeleteDepartment(' + department.id + ')"/>').text("Delete")))
             .append($('<td>')
                 .append($('<button class="btn-flat disabled" onclick="showListEmployee(' + department.id + ')"/>').text("List"))).appendTo(table);
         //.append($('<a href="/listEmployees" onclick="showListEmployee('+department.id+').submit();  return false;">List</a>')))
         //.appendTo(table);    <a class="btn-flat disabled">Button</a>
+
+    //.append($('<button class="waves-effect waves-light btn"/>').on('click', saveEmp).text("Add Employee")))
     }
 
     $('<button class="btn waves-effect waves-red" onclick="addNewDepartments()"/>').text("AddDepartment").appendTo(div);
@@ -53,6 +55,18 @@ function showListDepartments() {
         drawTableDepartment(dep);
     });
 }
+function showAddDepartment(id){
+
+    $.ajax({
+        url: '/showAddDep',
+        type: 'GET',
+        dataType: 'json',
+        data: {id: id},
+        success: function (data) {
+            addNewDepartments(data);
+        }
+    });
+}
 
 function addNewDepartments(dep) {
     $('#test').children().detach();
@@ -64,9 +78,9 @@ function addNewDepartments(dep) {
     $('<h1 class="card-panel teal lighten-2" align="center"/>').text("New Department").appendTo(form);
     $('<div class="row"/>')
         .append($('<div class="col s4 offset-s4"/>')
-            .append($('<input type="hidden" id="id"/>').val(dep != null ? dep : "")).append($('<br/>'))
+            .append($('<input type="hidden" id="id"/>').val(dep != null ? dep.id : "")).append($('<br/>'))
             .append($('<h5/>').text("Name Department").append($('<br/>'))
-                .append($('<input type="text" id="name" name="name" class="validate"  />')))
+                .append($('<input type="text" id="name" name="name" class="validate"/>').val(dep != null ? dep.name : "")))
 
             .append($('<button  class="btn waves-effect waves-red"/>').on('click', saveDep).text("add department")))
         .appendTo(form);
@@ -158,7 +172,7 @@ function drawTableEmployee(data, id) {
             .append($('<td>').text(employee.salary))
             .append($('<td>').text(employee.department_id))
             .append($('<td>')
-                .append($('<button class="btn-flat disabled" onclick="addNewEmployee(' + employee.id + ', ' + employee.department_id + ')"/>').text("Edit")))
+                .append($('<button class="btn-flat disabled" onclick="showAddEmployee(' + employee.id + ', ' + employee.department_id + ')"/>').text("Edit")))
             .append($('<td>')
                 .append($('<button class="btn-flat disabled" onclick="DeleteEmployee(' + employee.id + ', ' + id + ')"/>').text("Delete")))
 
@@ -181,7 +195,20 @@ function DeleteEmployee(id, depId) {
     })
 }
 
-function addNewEmployee(id, depID) {
+function showAddEmployee(id, depId){
+
+    $.ajax({
+        url: '/showAddEmp',
+        type: 'GET',
+        dataType: 'json',
+        data: {id: id},
+        success: function (data) {
+            addNewEmployee(data, depId);
+        }
+    });
+}
+
+function addNewEmployee(emp, depID) {
 
 
     $('#test').children().detach();
@@ -192,16 +219,16 @@ function addNewEmployee(id, depID) {
     $('<h1 class="card-panel teal lighten-2" align="center"/>').text("New Employee").appendTo(form);
     $('<div class="row"/>')
         .append($('<div class="col s4 offset-s4"/>')
-            .append($('<input type="hidden" id="id" name="id"/>').val(id)).append($('<br/>'))
+            .append($('<input type="hidden" id="id" name="id"/>').val(emp != null ? emp.id : "")).append($('<br/>'))
             .append($('<h5/>').text("Name Employee").append($('<br/>'))
-                .append($('<input type="text" id="name" name="name" class="validate"/>')))
+                .append($('<input type="text" id="name" name="name" class="validate"/>').val(emp != null ? emp.name : "")))
             .append($('<h5/>').text("email").append($('<br/>'))
-                .append($('<input type="text" id="email" name="email" class="validate" />')))
+                .append($('<input type="text" id="email" name="email" class="validate" />').val(emp != null ? emp.email : "")))
             //.append($('<label for="email">Email</label>')))
             .append($('<h5 />').text("date").append($('<br/>'))
-                .append($('<input type="date" id="date" name="date" class="validate"/>')))
+                .append($('<input type="date" id="date" name="date" class="validate"/>').val(emp != null ? emp.date : "")))
             .append($('<h5/>').text("salary").append($('<br/>'))
-                .append($('<input type="text" id="salary" name="salary" class="validate"/>')))
+                .append($('<input type="text" id="salary" name="salary" class="validate"/>').val(emp != null ? emp.salary : "")))
             .append($('<input type="hidden" id="department_id" name="department_id"/>').val(depID)).append($('<br/>'))
 
             .append($('<button class="waves-effect waves-light btn"/>').on('click', saveEmp).text("Add Employee")))
@@ -222,9 +249,9 @@ function saveEmp(data) {
             email: {
                 required: true,
                 email: {
-                  email: function(){
-                      check($("#email"));
-                  }
+                    email: function () {
+                        check($("#email"));
+                    }
                 },
                 remote: {
                     url: "/uniqueEmail",
@@ -291,6 +318,6 @@ function saveEmp(data) {
         }
     });
 }
-function check(email){
+function check(email) {
     return ("^(\S+)@([a-z0-9-]+)(\.)([a-z]{2,4})(\.?)([a-z]{0,4})+$").test(email);
 }
